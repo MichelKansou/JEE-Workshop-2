@@ -13,6 +13,9 @@
             <h:inputText value="#{paymentModel.amount}"/>
             <h:commandButton value="Payer avec Soap" 
                              action="#{paymentModel.doPaymentWithSoap}"/>
+            <h:commandButton value="Payer avec Rest" action="#{paymentModel.doPaymentWithRest}"/>
+            <br/>
+            <h:commandLink action="admin" value="gestion des paiements"/>
         </h:form>
     </h:body>
 </html>

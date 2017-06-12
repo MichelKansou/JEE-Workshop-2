@@ -6,6 +6,8 @@
 package com.store.model;
 
 import com.store.business.logic.PaymentValidator;
+import com.store.business.logic.Rest;
+import com.store.business.logic.Soap;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -18,8 +20,11 @@ import javax.inject.Inject;
 @RequestScoped
 public class PaymentBean {
     
-    @Inject
+    @Inject @Soap
     private PaymentValidator paymentValidator;
+    
+    @Inject @Rest
+    private PaymentValidator restPaymentValidator;
     
     private String ccNumber;
     private Double amount;
@@ -33,6 +38,18 @@ public class PaymentBean {
             return "invalid";
         }
     }
+    
+    public String doPaymentWithRest() {
+        System.out.println("payment loading");
+        boolean isValid = restPaymentValidator.process(ccNumber, amount);
+        if(isValid) {
+            return "valid";
+        } else {
+            return "invalid";
+        }
+    }
+    
+    
 
     public String getCcNumber() {
         return ccNumber;

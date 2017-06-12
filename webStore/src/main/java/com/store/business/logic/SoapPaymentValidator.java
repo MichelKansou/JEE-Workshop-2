@@ -14,6 +14,7 @@ import javax.xml.ws.WebServiceRef;
  *
  * @author GhostLeader
  */
+@Soap
 @Stateless
 public class SoapPaymentValidator implements PaymentValidator {
     

@@ -15,9 +15,12 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -75,5 +78,31 @@ public class PaymentResource {
         Response resp = Response.ok(genericList).build();
         return resp;
     }
+    
+    @Path("{id}")
+    @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Response getStoredPayment(@PathParam("id") Long paymentId) {
+        //@PathParam permet //d'extraire la valeur du template parameter
+        
+        Payment storedPayment = bankingService.lookupStoredPayment(paymentId);
+        
+        if (storedPayment == null) {
+            throw new NotFoundException();
+        }
+        return Response.ok(storedPayment).build();
+    }
+    
+    @Path("{id}")
+    @DELETE
+    public Response cancelStoredPayment(@PathParam("id") Long paymentId){
+        Payment cancelledPayment = bankingService.deleteStoredPayment(paymentId);
+        
+        if (cancelledPayment == null) {
+            throw new NotFoundException();
+        }
+        
+        return Response.noContent().build();
+    } 
 
 }
